@@ -46,7 +46,6 @@ function LessonModal({isModalVisible, handleCancel, loading, getActiveGroupsActi
     );
 }
 
-
 const mapDispatchToProps = (dispatch) => ({
     createMentorAction: bindActionCreators(createMentor, dispatch),
     updateMentorAction: bindActionCreators(updateMentor, dispatch),
