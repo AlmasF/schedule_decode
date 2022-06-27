@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {isEmpty} = require('../utils/is-empty');
 const {createGroupValidator} = require('../validations/group.validations');
-const {createGroup, getGroups, deleteGroup, updateGroup} = require('../controllers/group.controller');
+const {createGroup, getGroups, deleteGroup, updateGroup, getActiveGroups} = require('../controllers/group.controller');
 
 router.get('/api/groups', getGroups);
 
@@ -37,5 +37,14 @@ router.put('/api/groups', async(req, res) => {
         res.status(400).send(error)
     }
 });
+
+router.get('/api/groups/filter/active', async(req, res) => {
+    try{
+        const groups = await getActiveGroups(); 
+        res.status(200).send(group);
+    }catch(e){
+        res.status(500).send(e);
+    }
+})
 
 module.exports = router;

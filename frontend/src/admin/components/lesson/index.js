@@ -104,7 +104,7 @@ function Lessons(props){
                 <div className='page-header--actions'>
                     <Input onChange={onChange} value={search} data={props.autoCompleteData} onSelectItem={onSelectItem} placeholder='Mentor, Group, Room'/>
                     <Button type='primary' size={'large'} onClick={showModal}>
-                        Добавить активность
+                        Добавить запись
                     </Button>
                 </div>
             </div>

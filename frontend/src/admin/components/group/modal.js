@@ -2,7 +2,7 @@ import { Modal, Input, Button, DatePicker} from 'antd';
 import {TeamOutlined} from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { createGroup, updateGroup } from '../../../store/actions/group.actions';
+import { createGroup, updateGroup} from '../../../store/actions/group.actions';
 import { bindActionCreators } from 'redux';
 const { RangePicker } = DatePicker;
 
@@ -99,7 +99,7 @@ function GroupModal({group, isModalVisible, handleCancel, loading, createGroupAc
 
 const mapDispatchToProps = (dispatch) => ({
     createGroupAction: bindActionCreators(createGroup, dispatch),
-    updateGroupAction: bindActionCreators(updateGroup, dispatch)
+    updateGroupAction: bindActionCreators(updateGroup, dispatch),
 });
 
 const mapStateToProps = (state) => ({

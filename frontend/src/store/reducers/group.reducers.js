@@ -3,11 +3,18 @@ import { removeById } from './utils';
 
 const initialState = {
     isLoading: false,
-    groups: []
+    groups: [],
+    activeGroups: []
 }
 
 export default function groupReducers(state = initialState, action) {
     switch(action.type){
+        case types.SUCCESS_GET_ACTIVE_GROUPS:
+            return {...state, isLoading: false, activeGroups: action.payload};
+        case types.FAILURE_GET_ACTIVE_GROUPS:
+            alert('Ведутся технические работы. Попробуйте позже!');
+            // alert(JSON.stringify(action.error));
+            return state;
         case types.SUCCESS_GET_GROUPS:
             return {...state, isLoading: false, groups: action.payload};
         case types.FAILURE_GET_GROUPS:

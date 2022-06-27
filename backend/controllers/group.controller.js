@@ -47,10 +47,24 @@ const updateGroup = ({id, name, start, end}) => {
     });
 }
 
+const getActiveGroups = async () => {
+    return new Promise(async resolve => {
+        const groups = await Group.findAll({
+            where: {
+                end: {
+                    $gte: new Date()
+                }
+            } 
+        });
+        resolve(groups);
+    })
+}
+
 module.exports = {
     createGroup,
     getGroupsByName,
     getGroups,
     deleteGroup,
-    updateGroup
+    updateGroup,
+    getActiveGroups
 }
