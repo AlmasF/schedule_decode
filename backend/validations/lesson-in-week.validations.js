@@ -1,17 +1,28 @@
 const {isWeekDay} = require('../utils/is-weekday');
 const {isTime} = require('../utils/is-time');
 
-const createLessonInWeekValidator = ({course_id, group_id, room_id, mentor_id, weekday, time}) => {
+const createLessonInWeekValidator = async ({course_id, group_id, room_id, mentor_id, lessonInputs}) => {
     const errors = {};
+    errors.lessonInputs = [];
 
-    if(!weekday || !isWeekDay(weekday)){
-        errors.weekday = 'Некорректный день недели';
+    await lessonInputs.map((item, index) => {
+        
+        if(!item.weekday || !isWeekDay(item.weekday)){
+            errors.lessonInputs[index] = {};
+            errors.lessonInputs[index].weekday = 'Некорректный день недели';
+        }
+        if(!item.time || !isTime(item.time)){
+            errors.lessonInputs[index] ? errors.lessonInputs[index] = {} : '';
+            errors.lessonInputs[index].time = 'Некорректное время';
+        }
+    });
+
+    console.log(errors);
+
+    if(errors.lessonInputs.length === 0){
+        delete errors.lessonInputs;
     }
-
-    if(!time || !isTime(time)){
-        errors.time = 'Некорректное время';
-    }
-
+    
     mentor_id *= 1;
     if(!mentor_id || typeof mentor_id !== 'number'){
         errors.mentor_id = 'Выберите ментора';

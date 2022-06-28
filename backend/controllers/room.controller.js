@@ -15,6 +15,14 @@ const getRoomsByNumber = async(query) => {
     });
 }
 
+const getRooms = async(query) => {
+    return new Promise(async resolve => {
+        const rooms = await Room.findAll();
+        resolve(rooms);
+    });
+}
+
 module.exports = {
-    getRoomsByNumber
+    getRoomsByNumber,
+    getRooms
 }

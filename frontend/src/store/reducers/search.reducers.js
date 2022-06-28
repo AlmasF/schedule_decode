@@ -1,6 +1,7 @@
 import * as types from '../actions/types';
 
 const initialState = {
+    // isLoading: false,
     list: [],
     autoCompleteData: {}
 }
@@ -17,6 +18,8 @@ export default function searchReducers(state = initialState, action) {
         case types.FAILURE_AUTO_COMPLETE:
             alert('Ведутся технические работы. Попробуйте позже!');
             return state;
+        case types.SUCCESS_CREATE_LESSON_IN_WEEK:
+            return {...state, isLoading: false, list: [...state.list, ...action.payload]};
         default:
             return state;
     }

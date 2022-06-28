@@ -52,7 +52,7 @@ const getActiveGroups = async () => {
         const groups = await Group.findAll({
             where: {
                 end: {
-                    $gte: new Date()
+                    [Op.gt]: new Date()
                 }
             } 
         });
