@@ -41,7 +41,7 @@ router.put('/api/groups', async(req, res) => {
 router.get('/api/groups/filter/active', async(req, res) => {
     try{
         const groups = await getActiveGroups(); 
-        res.status(200).send(group);
+        res.status(200).send(groups);
     }catch(e){
         res.status(500).send(e);
     }

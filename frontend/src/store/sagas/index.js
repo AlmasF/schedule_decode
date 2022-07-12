@@ -5,6 +5,7 @@ import { groupSagas } from './group.sagas';
 import { searchSagas } from './search.sagas';
 import { lessonSagas } from './lesson.sagas';
 import { roomSagas } from './room.sagas';
+import { courseSagas } from './course.sagas';
 
 export default function* rootSaga(){
     yield all([
@@ -12,6 +13,7 @@ export default function* rootSaga(){
         groupSagas(),
         searchSagas(),
         lessonSagas(),
-        roomSagas()
+        roomSagas(),
+        courseSagas()
     ])
 }

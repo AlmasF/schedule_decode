@@ -4,11 +4,13 @@ import groupReducers from "./group.reducers";
 import searchReducers from "./search.reducers";
 import lessonReducers from "./lesson.reducers";
 import roomReducers from "./room.reducers";
+import courseReducers from "./course.reducers";
 
 export default combineReducers({
     mentorReducers,
     groupReducers,
     searchReducers,
     lessonReducers,
-    roomReducers
+    roomReducers,
+    courseReducers
 })

@@ -53,7 +53,7 @@ const getActiveGroups = async () => {
             where: {
                 end: {
                     [Op.gt]: new Date()
-                }
+                    }
             } 
         });
         resolve(groups);
