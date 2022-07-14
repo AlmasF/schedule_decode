@@ -5,7 +5,7 @@ import { getActiveGroups } from '../../../store/actions/group.actions';
 import { getRooms } from '../../../store/actions/room.actions';
 import { getCourses } from '../../../store/actions/course.actions';
 import { getMentors } from '../../../store/actions/mentor.actions';
-import { Modal, Button, Select} from 'antd';
+import { Modal, Button, Select, Form} from 'antd';
 import {CloseOutlined} from '@ant-design/icons';
 import { weekdays, time } from '../../../utils/calendar-info';
 import { bindActionCreators } from 'redux';
@@ -31,6 +31,7 @@ function LessonModal(
         createLessonAction
     })
     {
+
     const [course_id, setCourse] = useState('');
     const [group_id, setGroup] = useState('');
     const [mentor_id, setMentor] = useState('');
@@ -91,7 +92,7 @@ function LessonModal(
     }
 
     useEffect(()=>{
-        if(!loading && !errors){
+        if(!loading){
             setCourse('');
             setGroup('');
             setRoom('');
@@ -117,116 +118,163 @@ function LessonModal(
         onCancel={handleCancel}
         visible={isModalVisible}
         footer={[
-            <Button key="back" onClick={handleCancel}>
-            Отмена
-            </Button>,
-            <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-            Сохранить
-            </Button>,
+                <Button key="back" onClick={handleCancel}>
+                    Отмена
+                </Button>,
+                <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+                    Сохранить
+                </Button>,
             ]}>
-            <Select
-                showSearch
+            <Form.Item 
                 style={{
-                    width: "100%",
-                    marginBottom: 20
+                    width: "100%",    
                 }}
-                size="large"
-                placeholder="Курс"
-                optionFilterProp="children"
-                filterOption={(input, option) => option.children.includes(input)}
-                filterSort={(optionA, optionB) =>
-                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                }
-                onChange={onChangeCourse}
+                validateStatus={errors && errors.course_id ? "error" : "success"}
+                help={errors && errors.course_id ? errors.course_id : ""}
+                >
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Курс"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.includes(input)}
+                    filterSort={(optionA, optionB) =>
+                    optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                    }
+                    onChange={onChangeCourse}
+                >
+                    {courses.map(item => <Option value={item.id}>{item.name}</Option>)}
+                </Select>
+            </Form.Item>
+            <Form.Item
+            style={{
+                width: "100%",    
+            }}
+            validateStatus={errors && errors.group_id ? "error" : "success"}
+            help={errors && errors.group_id ? errors.group_id : ""}
             >
-                {courses.map(item => <Option value={item.id}>{item.name}</Option>)}
-            </Select>
-            <Select
-                showSearch
-                style={{
-                    width: "100%",
-                    marginBottom: 20
-                }}
-                size="large"
-                placeholder="Группа"
-                optionFilterProp="children"
-                filterOption={(input, option) => option.children.includes(input)}
-                filterSort={(optionA, optionB) =>
-                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                }
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Группа"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.includes(input)}
+                    filterSort={(optionA, optionB) =>
+                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                    }
+                    onChange={onChangeGroup}
+                >
+                    {activeGroups.map(item => <Option value={item.id}>{item.name}</Option>)}
+                </Select>
+            </Form.Item>
+            <Form.Item 
+            style={{
+                width: "100%",    
+            }}
+            validateStatus={errors && errors.mentor_id ? "error" : "success"}
+            help={errors && errors.mentor_id ? errors.mentor_id : ""}
             >
-                {activeGroups.map(item => <Option value={item.id}>{item.name}</Option>)}
-            </Select>
-            <Select
-                showSearch
-                style={{
-                    width: "100%",
-                    marginBottom: 20
-                }}
-                size="large"
-                placeholder="Ментор"
-                optionFilterProp="children"
-                filterOption={(input, option) => option.children.includes(input)}
-                filterSort={(optionA, optionB) =>
-                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                }
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Ментор"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.includes(input)}
+                    filterSort={(optionA, optionB) =>
+                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                    }
+                    onChange={onChangeMentor}
+                >
+                    {mentors.map(item => <Option value={item.id}>{item.full_name}</Option>)}
+                </Select>
+            </Form.Item>
+            <Form.Item
+            style={{
+                width: "100%",
+            }}
+            validateStatus={errors && errors.room_id ? "error" : "success"}
+            help={errors && errors.room_id ? errors.room_id : ""}
             >
-                {mentors.map(item => <Option value={item.id}>{item.full_name}</Option>)}
-            </Select>
-            <Select
-                showSearch
-                style={{
-                    width: "100%",
-                    marginBottom: 20
-                }}
-                size="large"
-                placeholder="Кабинет"
-                optionFilterProp="children"
-                filterOption={(input, option) => option.children.includes(input)}
-                filterSort={(optionA, optionB) =>
-                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                }
-            >
-                {rooms.map(item => <Option value={item.id}>{item.number}</Option>)}
-            </Select>
+                <Select
+                    showSearch      
+                    size="large"
+                    placeholder="Кабинет"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.includes(input)}
+                    filterSort={(optionA, optionB) =>
+                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                    }
+                    onChange={onChangeRoom}
+                >
+                    {rooms.map(item => <Option value={item.id}>{item.number}</Option>)}
+                </Select>
+            </Form.Item>
             {lessonInputs.map((lessonInput, index) => <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'relative'
             }}>
-                <Select
-                    showSearch
+                <Form.Item
                     style={{
                         width: "calc(50% - 10px)",
-                        marginBottom: 20
                     }}
-                    size="large"
-                    placeholder="День недели"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.children.includes(input)}
-                    onChange={value => onChangeWeekday(index, value)}
-                >
-                    {weekdays.map(item => <Option value={item}>{item}</Option>)}
-                </Select>
-                <Select
-                    showSearch
+                    validateStatus={
+                        errors && 
+                        errors.lessonInputs && 
+                        errors.lessonInputs[index] && 
+                        errors.lessonInputs[index].weekday ? "error" : "success"
+                    }
+                    help={
+                        errors && 
+                        errors.lessonInputs && 
+                        errors.lessonInputs[index] && 
+                        errors.lessonInputs[index].weekday ? errors.lessonInputs[index].weekday : ""
+                    }
+                    >
+                    <Select
+                        showSearch
+                        size="large"
+                        placeholder="День недели"
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.children.includes(input)}
+                        onChange={value => onChangeWeekday(index, value)}
+                        
+                    >
+                        {weekdays.map(item => <Option value={item}>{item}</Option>)}
+                    </Select>
+                </Form.Item>
+                <Form.Item
                     style={{
                         width: "calc(50% - 10px)",
-                        marginBottom: 20
                     }}
-                    size="large"
-                    placeholder="Время"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.children.includes(input)}
-                    onChange={value => onChangeTime(index, value)}
-                >
-                    {time.map(item => {
-                        let t = item.split(' ');
-                        t = t[0];
-                        return <Option value={item}>{item}</Option>
-                        }
-                    )}
-                </Select>
+                    validateStatus={
+                        errors && 
+                        errors.lessonInputs && 
+                        errors.lessonInputs[index] && 
+                        errors.lessonInputs[index].time ? "error" : "success"
+                    }
+                    help={
+                        errors && 
+                        errors.lessonInputs && 
+                        errors.lessonInputs[index] && 
+                        errors.lessonInputs[index].time ? errors.lessonInputs[index].time : ""
+                    }>
+                    <Select
+                        showSearch
+                        size="large"
+                        placeholder="Время"
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.children.includes(input)}
+                        onChange={value => onChangeTime(index, value)}
+                    >
+                        {time.map(item => {
+                            let t = item.split(' ');
+                            t = t[0];
+                            return <Option value={item}>{item}</Option>
+                            }
+                        )}
+                    </Select>
+                </Form.Item>
                 <CloseOutlined 
                 onClick={() => deleteLesson(index)}
                 style={{
@@ -251,14 +299,17 @@ const mapDispatchToProps = (dispatch) => ({
     createLessonAction: bindActionCreators(createLesson, dispatch),
 });
 
-const mapStateToProps = (state) => ({
-    loading: state.mentorReducers.isLoading,
-    rooms: state.roomReducers.rooms,
-    courses: state.courseReducers.courses,
-    mentors: state.mentorReducers.mentors,
-    activeGroups: state.groupReducers.activeGroups
-    // errors: state.lessonsReducers.errors,
-    
-});
+const mapStateToProps = (state) => 
+{
+    console.log(state.lessonReducers);
+    return {
+        loading: state.lessonReducers.isLoading,
+        rooms: state.roomReducers.rooms,
+        courses: state.courseReducers.courses,
+        mentors: state.mentorReducers.mentors,
+        activeGroups: state.groupReducers.activeGroups,
+        errors: state.lessonReducers.errors,
+    }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LessonModal);

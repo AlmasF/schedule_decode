@@ -20,7 +20,7 @@ function GroupModal({group, isModalVisible, handleCancel, loading, createGroupAc
                 start: value[0]._d,
                 end: value[1]._d
             };
-            console.log(data.name);
+            // console.log(data.name);
             createGroupAction(data);
         } else {
             const data = {

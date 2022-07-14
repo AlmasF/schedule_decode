@@ -15,7 +15,7 @@ function Admin(){
     let navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const onSelect = ({key}) => {
-      console.log(key);
+      // console.log(key);
       navigate(`/admin/${key}`);
     }
     return (

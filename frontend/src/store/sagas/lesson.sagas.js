@@ -6,6 +6,7 @@ import { BASE_URL } from '../../config/base-url';
 function* createLesson({data}){
     try {
         const lessons = yield axios.post(`${BASE_URL}/api/lesson-in-week`, data).then(res => res.data);
+        console.log(lessons);
         yield put({type: types.SUCCESS_CREATE_LESSON_IN_WEEK, payload: lessons});
     } catch (errors) {
         yield put({type: types.FAILURE_CREATE_LESSON_IN_WEEK, errors: errors.response.data});
