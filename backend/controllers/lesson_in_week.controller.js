@@ -8,7 +8,7 @@ const createLessonInWeek = ({course_id, group_id, room_id, mentor_id, weekday, t
             room_id,
             mentor_id,
             weekday,
-            time
+            time: time.split(' ')[0]
         });
         const lessonInWeek = await Lesson_in_week.findOne({
             include: ['mentor', 'course', 'room', 'group'],
@@ -18,7 +18,7 @@ const createLessonInWeek = ({course_id, group_id, room_id, mentor_id, weekday, t
                 room_id,
                 mentor_id,
                 weekday,
-                time
+                time: time.split(' ')[0]    
             }
         });
         resolve(lessonInWeek);
