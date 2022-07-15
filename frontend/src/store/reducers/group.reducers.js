@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import { removeById } from './utils';
+import { removeById, updateGroup } from './utils';
 
 const initialState = {
     isLoading: false,
@@ -45,12 +45,3 @@ export default function groupReducers(state = initialState, action) {
     }
 }
 
-function updateGroup(arr, group){
-    
-    group.start = group.start.toString();
-    group.end = group.end.toString();
-
-    // return arr;
-    // let arrNew = arr.map(record => record.id === group.id ? group : record);
-    return arr.map(record => record.id === group.id ? group : record);
-}

@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import { removeById } from './utils';
+import { removeById, updateMentor } from './utils';
 
 const initialState = {
     isLoading: false,
@@ -38,6 +38,3 @@ export default function mentorReducers(state = initialState, action) {
     }
 }
 
-function updateMentor(arr, mentor){
-    return arr.map(record => record.id === mentor.id ? mentor : record);
-}

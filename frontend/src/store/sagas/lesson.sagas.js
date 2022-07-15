@@ -13,8 +13,18 @@ function* createLesson({data}){
     }
 }
 
+function* deleteLesson(id){
+    try {
+        yield axios.delete(`${BASE_URL}/api/lesson-in-week/${id}`).then(res => res.data);
+        yield put({type: types.SUCCESS_DELETE_LESSON_IN_WEEK, payload: {id}})
+    } catch (error) {
+        yield put({type: types.FAILURE_DELETE_LESSON_IN_WEEK, error})
+    }
+}
+
 export function* lessonSagas(){
     yield all([
-        yield takeLatest(types.CREATE_LESSON_IN_WEEK, createLesson)
+        yield takeLatest(types.CREATE_LESSON_IN_WEEK, createLesson),
+        yield takeLatest(types.DELETE_LESSON_IN_WEEK, deleteLesson),
     ])
 }
