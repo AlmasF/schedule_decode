@@ -1,4 +1,5 @@
 export function removeById(arr, id){
+    console.log('from reducers removeById', arr, id);
     return arr.filter(item => item.id !== id);
 }
 

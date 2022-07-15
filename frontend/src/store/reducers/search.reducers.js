@@ -1,4 +1,5 @@
 import * as types from '../actions/types';
+import { removeById } from './utils';
 
 const initialState = {
     // isLoading: false,
@@ -20,6 +21,8 @@ export default function searchReducers(state = initialState, action) {
             return state;
         case types.SUCCESS_CREATE_LESSON_IN_WEEK:
             return {...state, isLoading: false, list: [...state.list, ...action.payload]};
+        case types.SUCCESS_DELETE_LESSON_IN_WEEK:
+            return {...state, list: removeById(state.list, action.payload.id)};
         default:
             return state;
     }

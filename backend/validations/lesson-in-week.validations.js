@@ -18,7 +18,6 @@ const createLessonInWeekValidator = async ({course_id, group_id, room_id, mentor
     });
 
     if(errors.lessonInputs.length === 0){
-        // console.log('deleting lessonInputs');
         delete errors.lessonInputs;
     }
     

@@ -13,8 +13,9 @@ function* createLesson({data}){
     }
 }
 
-function* deleteLesson(id){
+function* deleteLesson(data){
     try {
+        const id = data.id;
         yield axios.delete(`${BASE_URL}/api/lesson-in-week/${id}`).then(res => res.data);
         yield put({type: types.SUCCESS_DELETE_LESSON_IN_WEEK, payload: {id}})
     } catch (error) {

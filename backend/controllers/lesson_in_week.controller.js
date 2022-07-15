@@ -27,7 +27,7 @@ const createLessonInWeek = ({course_id, group_id, room_id, mentor_id, weekday, t
 
 const deleteLessonInWeek = (id) => {
     return new Promise(async resolve => {
-        await Lesson_in_week.destroy({where: {group_id: id}});
+        await Lesson_in_week.destroy({where: {id}});
         resolve(true);
     });
 }

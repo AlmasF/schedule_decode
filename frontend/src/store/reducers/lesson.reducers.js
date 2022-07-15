@@ -12,7 +12,6 @@ export default function lessonReducers(state = initialState, action) {
         case types.CREATE_LESSON_IN_WEEK:
             return {...state, isLoading: true};
         case types.SUCCESS_CREATE_LESSON_IN_WEEK:
-            console.log([...state.lessons, action.payload]);
             return {...state, isLoading: false, lessons: [...state.lessons, action.payload]};
         case types.FAILURE_CREATE_LESSON_IN_WEEK:
             return {...state, isLoading: false, errors: action.errors};

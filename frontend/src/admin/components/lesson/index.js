@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteMentor} from '../../../store/actions/mentor.actions';
+import { deleteLesson } from '../../../store/actions/lesson.actions';
 import { searchLessons, autoCompleteFunc} from '../../../store/actions/search.actions';
 import { useState, useEffect } from 'react';
 import LessonModal from './modal';
@@ -73,7 +73,14 @@ function Lessons(props){
             render: (_, record) => (
             <Space size="middle">
                 <a>Редактировать</a>
-                <a>Удалить</a>
+                <a onClick={
+                        () => {
+                            return props.deleteLessonAction(record.id);
+                        }
+                    }
+                    >
+                    Удалить
+                </a>
             </Space>
             ),
         },
@@ -122,7 +129,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     searchLessonsAction: bindActionCreators(searchLessons, dispatch),
-    deleteMentorAction: bindActionCreators(deleteMentor, dispatch),
+    deleteLessonAction: bindActionCreators(deleteLesson, dispatch),
     autoCompleteFunc: bindActionCreators(autoCompleteFunc, dispatch)
 })
 
