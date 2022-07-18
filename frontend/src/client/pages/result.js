@@ -19,7 +19,7 @@ function Result({queryname}){
 
     return (
         <div className='result' >
-            <Search flexDirection='row' placeholder='Search by Group, Room, Mentor'/>
+            <Search flexDirection='row' placeholder='Search by Group, Room, Mentor' filterByWeek=""/>
             <Calendar data={data}/>
         </div>
     );

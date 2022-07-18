@@ -7,3 +7,7 @@ export function createLesson(data){
 export function deleteLesson(id){
     return {id, type: types.DELETE_LESSON_IN_WEEK};
 }
+
+export function updateLesson(data){
+    return {...data, type: types.UPDATE_LESSON_IN_WEEK};
+}

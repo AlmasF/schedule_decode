@@ -12,3 +12,9 @@ export function updateGroup(arr, group){
 export function updateMentor(arr, mentor){
     return arr.map(record => record.id === mentor.id ? mentor : record);
 }
+
+export function updateLessonInWeek(arr, lesson){
+    lesson.time = lesson.time.toString();
+    lesson.weekday = lesson.weekday.toString();
+    return arr.map(record => record.id === lesson.id ? lesson : record);
+}

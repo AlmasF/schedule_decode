@@ -20,7 +20,6 @@ function GroupModal({group, isModalVisible, handleCancel, loading, createGroupAc
                 start: value[0]._d,
                 end: value[1]._d
             };
-            // console.log(data.name);
             createGroupAction(data);
         } else {
             const data = {
@@ -29,15 +28,6 @@ function GroupModal({group, isModalVisible, handleCancel, loading, createGroupAc
                 start: value[0]._d,
                 end: value[1]._d,
             };
-            // console.log('Looking for this');
-            // console.log(value[0]._d);
-            // console.log(typeof value[0]._d);
-            // console.log('Whole this');
-            // console.log(value);
-            // console.log(typeof value);
-            // console.log('Got this');
-            // console.log(group.start);
-            // console.log(typeof group.start);
             updateGroupAction(data);
         }
     };

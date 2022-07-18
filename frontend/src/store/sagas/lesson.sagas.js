@@ -23,9 +23,19 @@ function* deleteLesson(data){
     }
 }
 
+function* updateLesson({id, time, weekday, mentor_id, room_id}){
+    try {
+        yield axios.put(`${BASE_URL}/api/lesson-in-week`, {id, time, weekday, mentor_id, room_id}).then(res => res.data);
+        yield put({type: types.SUCCESS_UPDATE_LESSON_IN_WEEK, payload: {id, time, weekday, mentor_id, room_id}})
+    } catch (error) {
+        yield put({type: types.FAILURE_UPDATE_LESSON_IN_WEEK, error})
+    }
+}
+
 export function* lessonSagas(){
     yield all([
         yield takeLatest(types.CREATE_LESSON_IN_WEEK, createLesson),
         yield takeLatest(types.DELETE_LESSON_IN_WEEK, deleteLesson),
+        yield takeLatest(types.UPDATE_LESSON_IN_WEEK, updateLesson),
     ])
 }

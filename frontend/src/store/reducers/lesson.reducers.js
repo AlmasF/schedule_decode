@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import { removeById } from './utils';
+import { removeById, updateLessonInWeek } from './utils';
 
 const initialState = {
     isLoading: false,
@@ -20,6 +20,13 @@ export default function lessonReducers(state = initialState, action) {
         case types.FAILURE_DELETE_LESSON_IN_WEEK:
             alert('Ведутся технические работы. Попробуйте позже!');
             return state;
+        case types.UPDATE_LESSON_IN_WEEK:
+            return {...state, isLoading: true};
+        case types.SUCCESS_UPDATE_LESSON_IN_WEEK:
+            return {...state, isLoading: false, groups: updateLessonInWeek(state.lessons, action.payload)};
+        case types.FAILURE_UPDATE_LESSON_IN_WEEK:
+            alert('Ведутся технические работы. Попробуйте позже!');
+            return {...state, isLoading: false};
         default:
             return state;
     }
