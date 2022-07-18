@@ -41,6 +41,9 @@ function GroupModal({group, isModalVisible, handleCancel, loading, createGroupAc
         {
             setName(group.name);
             setValue([]);
+        } else {
+            setName('');
+            setValue([]);
         }
     }, [group]);
 

@@ -7,8 +7,6 @@ import GroupModal from "./modal";
 import {Typography, Button, Space, Table} from "antd";
 const {Title} = Typography;
 
-
-
 function Groups(props){
     const columns = [
         {

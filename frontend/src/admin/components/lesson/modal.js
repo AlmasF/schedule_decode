@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {updateMentor } from '../../../store/actions/mentor.actions';
 import { getActiveGroups } from '../../../store/actions/group.actions';
 import { getRooms } from '../../../store/actions/room.actions';
 import { getCourses } from '../../../store/actions/course.actions';
@@ -9,7 +8,7 @@ import { Modal, Button, Select, Form} from 'antd';
 import {CloseOutlined} from '@ant-design/icons';
 import { weekdays, time } from '../../../utils/calendar-info';
 import { bindActionCreators } from 'redux';
-import { createLesson } from '../../../store/actions/lesson.actions';
+import { createLesson, updateLesson } from '../../../store/actions/lesson.actions';
 
 const { Option } = Select;
 
@@ -28,7 +27,9 @@ function LessonModal(
         mentors,
         rooms,
         errors,
-        createLessonAction
+        createLessonAction,
+        updateLessonAction,
+        lesson
     })
     {
 
@@ -42,15 +43,30 @@ function LessonModal(
     }]);
 
     const handleOk = () => {
-        createLessonAction(
-            {
-                course_id,
-                group_id,
-                mentor_id,
-                room_id,
-                lessonInputs
-            }
-        )
+        if(!lesson){
+            createLessonAction(
+                {
+                    course_id,
+                    group_id,
+                    mentor_id,
+                    room_id,
+                    lessonInputs
+                }
+            );
+        } else {
+            updateLessonAction(
+                {
+                    id: lesson.id,
+                    course_id,
+                    group_id,
+                    mentor_id,
+                    room_id,
+                    time: lessonInputs[0].time.split(' ')[0],
+                    weekday: lessonInputs[0].weekday
+                }
+            );
+        }
+        
     };
 
     const onChangeWeekday = (index, value) => {
@@ -91,6 +107,32 @@ function LessonModal(
         setLessonInputs(list);
     }
 
+    const deleteAllLessons = (index) => {
+        const list = [...lessonInputs];
+        list.splice(1);
+        setLessonInputs(list);
+    }
+
+    useEffect(() => {
+        if(lesson){
+            console.log(lesson);
+            setCourse(lesson.course_id);
+            setMentor(lesson.mentor_id);
+            setGroup(lesson.group_id);
+            setRoom(lesson.room_id);
+            deleteAllLessons();
+            setLessonInputs([{
+                time: lesson.time,
+                weekday: lesson.weekday
+            }]);
+        } else {
+            setCourse(null);
+            setMentor(null);
+            setGroup(null);
+            setRoom(null);
+        }
+    }, [lesson])
+
     useEffect(()=>{
         if(!loading){
             setCourse('');
@@ -105,6 +147,9 @@ function LessonModal(
         } 
     }, [loading])
 
+
+    console.log(lessonInputs);
+    
     useEffect(() => {
         getActiveGroupsAction();
         getRoomsAction();
@@ -136,10 +181,11 @@ function LessonModal(
                     showSearch
                     size="large"
                     placeholder="Курс"
+                    value={course_id}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
-                    optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                     }
                     onChange={onChangeCourse}
                 >
@@ -157,6 +203,7 @@ function LessonModal(
                     showSearch
                     size="large"
                     placeholder="Группа"
+                    value={group_id}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
@@ -178,6 +225,7 @@ function LessonModal(
                     showSearch
                     size="large"
                     placeholder="Ментор"
+                    value={mentor_id}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
@@ -199,6 +247,7 @@ function LessonModal(
                     showSearch      
                     size="large"
                     placeholder="Кабинет"
+                    value={room_id}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
@@ -235,6 +284,7 @@ function LessonModal(
                         showSearch
                         size="large"
                         placeholder="День недели"
+                        value={lessonInputs[0].weekday}
                         optionFilterProp="children"
                         filterOption={(input, option) => option.children.includes(input)}
                         onChange={value => onChangeWeekday(index, value)}
@@ -263,6 +313,7 @@ function LessonModal(
                         showSearch
                         size="large"
                         placeholder="Время"
+                        value={lessonInputs[0].time}
                         optionFilterProp="children"
                         filterOption={(input, option) => option.children.includes(input)}
                         onChange={value => onChangeTime(index, value)}
@@ -275,17 +326,21 @@ function LessonModal(
                         )}
                     </Select>
                 </Form.Item>
-                <CloseOutlined 
-                onClick={() => deleteLesson(index)}
-                style={{
-                    color: '#f00',
-                    position: 'absolute',
-                    right: '-18px',
-                    top: '13px',
-                    cursor: 'pointer',
-                }}/>
+                {!lesson 
+                ? <CloseOutlined 
+                    onClick={() => deleteLesson(index)}
+                    style={{
+                        color: '#f00',
+                        position: 'absolute',
+                        right: '-18px',
+                        top: '13px',
+                        cursor: 'pointer',
+                    }}/>
+                : ''}
             </div>)}
-            <Button onClick={addLesson}>Add</Button>
+            {!lesson 
+            ? <Button onClick={addLesson}>Add</Button>
+            : ''}
         </Modal>
     );
 }
@@ -294,9 +349,9 @@ const mapDispatchToProps = (dispatch) => ({
     getRoomsAction: bindActionCreators(getRooms, dispatch),
     getCoursesAction: bindActionCreators(getCourses, dispatch),
     getMentorsAction: bindActionCreators(getMentors, dispatch),
-    updateMentorAction: bindActionCreators(updateMentor, dispatch),
     getActiveGroupsAction: bindActionCreators(getActiveGroups, dispatch),
     createLessonAction: bindActionCreators(createLesson, dispatch),
+    updateLessonAction: bindActionCreators(updateLesson, dispatch),
 });
 
 const mapStateToProps = (state) => 

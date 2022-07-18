@@ -12,7 +12,7 @@ const {Title} = Typography;
 function Lessons(props){
     const [isModalVisible, setIsModalVisible] = useState(false);
     
-    const [editMentor, setEditMentor] = useState(null);
+    const [editLesson, setEditLesson] = useState(null);
     const [search, setSearch] = useState('');
     const onChange = (e) => {
         setSearch(e.target.value);
@@ -72,7 +72,7 @@ function Lessons(props){
             align: 'right',
             render: (_, record) => (
             <Space size="middle">
-                <a>Редактировать</a>
+                <a onClick={() => startEditLesson(record)}>Редактировать</a>
                 <a onClick={
                         () => {
                             return props.deleteLessonAction(record.id);
@@ -86,8 +86,9 @@ function Lessons(props){
         },
     ];
     
-    const startEditMentor = (record) => {
-        setEditMentor(record);
+    const startEditLesson = (record) => {
+        setEditLesson(record);
+        showModal();
     }
 
     
@@ -97,7 +98,7 @@ function Lessons(props){
 
     const handleCancel = () => {
         setIsModalVisible(false);
-        setEditMentor(null);
+        setEditLesson(null);
     };
 
     useEffect(() => {
@@ -117,7 +118,7 @@ function Lessons(props){
             </div>
             <Table columns={columns} dataSource={props.list} rowKey={item => item.id}/>
 
-            <LessonModal isModalVisible={isModalVisible} handleCancel={handleCancel} mentor={editMentor}/>
+            <LessonModal isModalVisible={isModalVisible} handleCancel={handleCancel} lesson={editLesson}/>
         </div>
     );
 }
