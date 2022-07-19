@@ -32,9 +32,13 @@ const deleteLessonInWeek = (id) => {
     });
 }
 
-const updateLessonInWeek = ({id, time, weekday, mentor_id, room_id, group_id}) => {
+const updateLessonInWeek = ({id, time, weekday, mentor_id, room_id}) => {
     return new Promise(async resolve => {
-        const lesson_in_week = await Lesson_in_week.update({time, weekday, mentor_id, room_id, group_id}, {where: {id}});
+        await Lesson_in_week.update({time, weekday, mentor_id, room_id}, {where: {id}});
+        const lesson_in_week = await Lesson_in_week.findOne({
+            include: ['mentor', 'course', 'room', 'group'],
+            where: {id}
+        });
         resolve(lesson_in_week);
     });
 }

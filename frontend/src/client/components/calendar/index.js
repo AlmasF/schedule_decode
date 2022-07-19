@@ -70,7 +70,6 @@ function Calendar(props){
     startEndTimes.sort();
     start = startEndTimes[0];
     end = startEndTimes[startEndTimes.length - 1];
-    // console.log(start, end);
     
     for(let x in freeTimes){
         if(freeTimes[x] === 7 && (x.substring(0,2) < start || x.substring(0,2) > end)){

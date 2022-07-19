@@ -23,7 +23,7 @@ export default function lessonReducers(state = initialState, action) {
         case types.UPDATE_LESSON_IN_WEEK:
             return {...state, isLoading: true};
         case types.SUCCESS_UPDATE_LESSON_IN_WEEK:
-            return {...state, isLoading: false, groups: updateLessonInWeek(state.lessons, action.payload)};
+            return {...state, isLoading: false, lessons: updateLessonInWeek(state.lessons, action.payload)};
         case types.FAILURE_UPDATE_LESSON_IN_WEEK:
             alert('Ведутся технические работы. Попробуйте позже!');
             return {...state, isLoading: false};

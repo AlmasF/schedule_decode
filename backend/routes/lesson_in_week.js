@@ -23,8 +23,6 @@ router.post('/api/lesson-in-week', async (req, res) => {
             ));
 
             lessonsInWeek = await Promise.all(promises);
-            // return lessonsInWeek;
-            await console.log('from lesson_in_week routes: ', lessonsInWeek);
             res.status(200).send(lessonsInWeek);
         } catch(errors) {
             res.status(500).send(errors);

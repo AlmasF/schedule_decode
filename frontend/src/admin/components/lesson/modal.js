@@ -33,13 +33,13 @@ function LessonModal(
     })
     {
 
-    const [course_id, setCourse] = useState('');
-    const [group_id, setGroup] = useState('');
-    const [mentor_id, setMentor] = useState('');
-    const [room_id, setRoom] = useState('');
+    const [course_id, setCourse] = useState(null);
+    const [group_id, setGroup] = useState(null);
+    const [mentor_id, setMentor] = useState(null);
+    const [room_id, setRoom] = useState(null);
     const [lessonInputs, setLessonInputs] = useState([{
-        time: '',
-        weekday: ''
+        time: null,
+        weekday: null
     }]);
 
     const handleOk = () => {
@@ -57,8 +57,6 @@ function LessonModal(
             updateLessonAction(
                 {
                     id: lesson.id,
-                    course_id,
-                    group_id,
                     mentor_id,
                     room_id,
                     time: lessonInputs[0].time.split(' ')[0],
@@ -115,7 +113,6 @@ function LessonModal(
 
     useEffect(() => {
         if(lesson){
-            console.log(lesson);
             setCourse(lesson.course_id);
             setMentor(lesson.mentor_id);
             setGroup(lesson.group_id);
@@ -130,25 +127,27 @@ function LessonModal(
             setMentor(null);
             setGroup(null);
             setRoom(null);
+            setLessonInputs([{
+                time: null,
+                weekday: null
+            }]);
         }
     }, [lesson])
 
     useEffect(()=>{
         if(!loading){
-            setCourse('');
-            setGroup('');
-            setRoom('');
-            setMentor('');
+            setCourse(null);
+            setMentor(null);
+            setGroup(null);
+            setRoom(null);
             setLessonInputs([{
-                time: '',
-                weekday: ''
+                time: null,
+                weekday: null
             }]);
             handleCancel();
         } 
     }, [loading])
 
-
-    console.log(lessonInputs);
     
     useEffect(() => {
         getActiveGroupsAction();
@@ -183,6 +182,7 @@ function LessonModal(
                     placeholder="Курс"
                     value={course_id}
                     optionFilterProp="children"
+                    disabled={!lesson ? false : true}
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
                         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
@@ -204,6 +204,7 @@ function LessonModal(
                     size="large"
                     placeholder="Группа"
                     value={group_id}
+                    disabled={!lesson ? false : true}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.children.includes(input)}
                     filterSort={(optionA, optionB) =>
@@ -284,7 +285,6 @@ function LessonModal(
                         showSearch
                         size="large"
                         placeholder="День недели"
-                        value={lessonInputs[0].weekday}
                         optionFilterProp="children"
                         filterOption={(input, option) => option.children.includes(input)}
                         onChange={value => onChangeWeekday(index, value)}
@@ -313,7 +313,6 @@ function LessonModal(
                         showSearch
                         size="large"
                         placeholder="Время"
-                        value={lessonInputs[0].time}
                         optionFilterProp="children"
                         filterOption={(input, option) => option.children.includes(input)}
                         onChange={value => onChangeTime(index, value)}
@@ -356,7 +355,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => 
 {
-    console.log(state.lessonReducers);
     return {
         loading: state.lessonReducers.isLoading,
         rooms: state.roomReducers.rooms,
