@@ -12,7 +12,7 @@ router.get('/api/search', async(req, res) => {
     const value = req.query[key];
 
     if(value && value.length > 0 && (key === 'group_id' || key === 'mentor_id' || key === 'room_id')){
-        let list = await getLessons(key, value);
+        let list = await getLessons(key, value, req.query.start, req.query.end);
 
         if(key === 'mentor_id'){
             const busy_in_week = await getBusyInWeek(value);

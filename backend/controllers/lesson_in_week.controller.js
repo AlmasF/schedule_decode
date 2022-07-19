@@ -1,4 +1,5 @@
-const {Lesson_in_week} = require('../models');  
+const {Lesson_in_week, Group, Sequelize} = require('../models');  
+const Op = Sequelize.Op;
 
 const createLessonInWeek = ({course_id, group_id, room_id, mentor_id, weekday, time}) => {
     return new Promise(async resolve => {
@@ -44,13 +45,35 @@ const updateLessonInWeek = ({id, time, weekday, mentor_id, room_id}) => {
 }
 
 
-const getLessons = (key, value) => {
+const getLessons = (key, value, start, end) => {
     return new Promise(async resolve => {
-        const lessonsInWeek = await Lesson_in_week.findAll({
-            include: ['mentor', 'course', 'room', 'group'],
-            where: {[key]: value}
-        });
-        resolve(lessonsInWeek);
+        if(!start){
+            const lessonsInWeek = await Lesson_in_week.findAll({
+                include: ['mentor', 'course', 'room', 'group'],
+                where: {[key]: value}
+            });
+            resolve(lessonsInWeek);
+        } else {
+            const lessonsInWeek = await Lesson_in_week.findAll({
+                include: ['mentor', 'course', 'room', 'group'],
+                where: {
+                    [Op.and]: [
+                        {[key]: value},
+                        {
+                            '$group.start$': {
+                                [Op.lte]: new Date(end)
+                            }
+                        },
+                        {
+                            '$group.end$': {
+                                [Op.gte]: new Date(start)
+                            }
+                        }
+                    ],
+                }
+            });
+            resolve(lessonsInWeek);
+        }
     });
 }
 
