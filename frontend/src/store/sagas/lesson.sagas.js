@@ -36,10 +36,20 @@ function* updateLesson({id, time, weekday, mentor_id, room_id}){
     }
 }
 
+function* createBusy({data}){
+    try {
+        const busies = yield axios.post(`${BASE_URL}/api/busy-in-week`, data).then(res => res.data);
+        yield put({type: types.SUCCESS_CREATE_BUSY_IN_WEEK, payload: busies});
+    } catch (errors) {
+        yield put({type: types.FAILURE_CREATE_BUSY_IN_WEEK, errors: errors.response.data});
+    }
+}
+
 export function* lessonSagas(){
     yield all([
         yield takeLatest(types.CREATE_LESSON_IN_WEEK, createLesson),
         yield takeLatest(types.DELETE_LESSON_IN_WEEK, deleteLesson),
         yield takeLatest(types.UPDATE_LESSON_IN_WEEK, updateLesson),
+        yield takeLatest(types.CREATE_BUSY_IN_WEEK, createBusy),
     ])
 }

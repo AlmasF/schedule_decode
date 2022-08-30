@@ -5,7 +5,7 @@ const createBusyInWeek = ({text, weekday, time, mentor_id}) => {
         const busyInWeek = await Busy_in_week.create({
             text,
             weekday,
-            time,
+            time: time.split(' ')[0],
             mentor_id
         });
         resolve(busyInWeek);
